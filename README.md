@@ -43,10 +43,17 @@ mirroring the Digitakt mod's tested one-or-two guidance. If you need
 tutti, keep patches lean (low FOLD/FBK, fewer locked voices) and stop the
 sequencer before editing pages.
 
+## Preview
+
+Hardware photos: the SYN1 SOPHIE page and the SYN2 page.
+
+![SYN1 SOPHIE page: OCT, MODEL, FOLD, SWEEP, METAL, FBK, COLOR](preview/digisophie-dn-syn1.png)
+![SYN2 page: TUNE, remaining slots intentionally unused](preview/digisophie-dn-syn2.png)
+
 ## Install: no compiler required
 
-You need only the prebuilt mod for your OS (`release/digisophie-dn-0.1g.elemod`
-for 1.43, `release/digisophie-dn-0.1g-os1.44.elemod` for 1.44),
+You need only the prebuilt mod for your OS (`release/digisophie-dn-0.1h.elemod`
+for 1.43, `release/digisophie-dn-0.1h-os1.44.elemod` for 1.44),
 [elekloader](https://github.com/irpina/elekloader/releases/latest),
 the `core-dn1` + `machines-dn1` mods it requires, and your own stock
 Digitone mk1 OS 1.43 or 1.44 `.syx`. The `.elemod` contains this project's
@@ -72,12 +79,12 @@ assembler, GCC and linker), and your own stock OS files. From this repo:
 
 ```sh
 ELEKLOADER_CROSS=m68k-elf- sh scripts/build-digisophie-dn.sh \
-  /path/to/Digitone_OS1.43.syx /path/to/Digitone_OS1.44.syx 0.1g
+  /path/to/Digitone_OS1.43.syx /path/to/Digitone_OS1.44.syx 0.1h
 ```
 
 This builds core-dn1, machines-dn1 and digisophie-dn from source for each
 OS, lints each combination, and writes verified test images to `out/`
-(`out/digisophie-dn-1.43-0.1g.syx`, `out/digisophie-dn-1.44-0.1g.syx`). Stock `.syx`
+(`out/digisophie-dn-1.43-0.1h.syx`, `out/digisophie-dn-1.44-0.1h.syx`). Stock `.syx`
 files are build inputs only and are never committed.
 
 Host DSP checks without firmware:

@@ -383,9 +383,12 @@ static void sophie_render(int32_t voice, int32_t *block, const struct dnm_voice 
         block[i] >>= 2;
 }
 
+/* Tile icon: 16 rows of 16 pixels, bit 15 left. Each row mirrors its
+ * left half (high byte, bit-reversed) into the right half (low byte),
+ * so the spark reads as one symmetric diamond. */
 static const uint16_t sophie_icon[16] = {
-    0x0000, 0x0810, 0x0810, 0x1c30, 0x1c30, 0x3e70, 0x3e70, 0x7ff0,
-    0x7ff0, 0x3e70, 0x3e70, 0x1c30, 0x1c30, 0x0810, 0x0810, 0x0000,
+    0x0000, 0x0810, 0x0810, 0x1c38, 0x1c38, 0x3e7c, 0x3e7c, 0x7ffe,
+    0x7ffe, 0x3e7c, 0x3e7c, 0x1c38, 0x1c38, 0x0810, 0x0810, 0x0000,
 };
 
 /* Defaults in each knob's stock 8.8 domain (-1 leaves the knob alone):

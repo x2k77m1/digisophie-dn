@@ -38,7 +38,7 @@ the companion owns AMP and velocity. Zero voices cost ~zero (companion
 skips silent voices; sleeping Sophie voices write zeros).
 
 Status: host harnesses green (24/24 core, 24/24 engine), cross-builds
-clean, `digisophie-dn-0.1g` builds/lints/patches for 1.43 + 1.44. fwcheck
+clean, `digisophie-dn-0.1h` builds/lints/patches for 1.43 + 1.44. fwcheck
 margins + emulator screenshots recorded, hardware tested through 0.1e.
 
 Build (local only, stock `.syx` supplied by absolute path, never
