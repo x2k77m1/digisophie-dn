@@ -1,0 +1,41 @@
+{
+  "id": "digisophie-dn",
+  "version": "0.1g",
+  "ele3_version": "0.1g",
+  "license": "MIT",
+  "title": "SOPHIE (Digitone machine)",
+  "category": "Sound",
+  "author": "digisophie contributors",
+  "description": "SOPHIE metallic percussion (FUSE/BOOM/PIPE/SHARD) as a Digitone mk1 machine: OCT, MODEL, FOLD, SWEEP, METAL, FBK, COLOR on borrowed stock SYN ranges (no custom params), newest-wins per track, through the Digitone filter/mixer/AMP. Needs the machines mod and core-dn1 3.1. Port of soejrd/digisophie (Digitakt) to Digitone.",
+  "device": "digitone-mk1",
+  "os": "1.43",
+  "sources": ["engine.c", "overlay.c", "pages.s", "../sophie.c"],
+  "cflags": [
+    "-DKEYVAR_AT=0x41367ce4",
+    "-DPATPTR_AT=0x4138e214",
+    "-DPROJPTR_AT=0x419efde0"
+  ],
+  "ports": {
+    "1.44": {
+      "cflags": [
+        "-DKEYVAR_AT=0x41368ce4",
+        "-DPATPTR_AT=0x4138f214",
+        "-DPROJPTR_AT=0x419f0de0"
+      ]
+    }
+  },
+  "defsym": {},
+  "sites": [],
+  "subscribe": [
+    {"event": "ev_tick", "fn": "sophie_tick", "order": 60},
+    {"event": "ev_draw", "fn": "sophie_draw", "order": 60},
+    {"event": "ev_key", "fn": "sophie_key_handler", "order": 60},
+    {"event": "ev_enc", "fn": "sophie_enc_handler", "order": 60}
+  ],
+  "contribute": [
+    {"to": "dn_machines", "order": 50, "data": "00000000",
+     "relocs": [[0, "abs32", "sym:sophie_machine", 0]]}
+  ],
+  "resources": {"names": ["dnmachine:11"], "core": "3.1"},
+  "requires": ["core", "machines"]
+}

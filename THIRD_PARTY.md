@@ -3,8 +3,8 @@
 ## Sophie for Schwung
 
 `sophie.c` is a fixed-point port of the original Sophie metallic-percussion
-algorithm in `../schwung-sophie/src/dsp/sophie.c`, adapted for one Digitakt
-track/voice at 48 kHz. The source project is MIT licensed.
+algorithm in `schwung-sophie/src/dsp/sophie.c`, adapted for one voice at
+48 kHz. The source project is MIT licensed.
 
 Copyright (c) 2026 Matt Estela.
 
@@ -23,12 +23,9 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## digihealth
+## digisophie (Digitakt)
 
-`diagnostics/digihealth/` is a locally modified copy of
-[irpina/digihealth](https://github.com/irpina/digihealth), commit
-`72f0183383e67c3313146bf77df6f71dd7996a8f`. It is
-GPL-2.0-or-later, not MIT. Its full license is retained at
-`diagnostics/digihealth/LICENSE`. The local change makes FAST AUDIO opt-in
-instead of enabling it at boot. Its source is included so that the exact
-diagnostic configuration used during hardware testing is reproducible.
+The DSP core is shared with
+[soejrd/digisophie](https://github.com/soejrd/digisophie) (the Digitakt
+SOPHIE mod, MIT). Digitone-only behavior lives in `digisophie-dn/`; core
+fixes from upstream merge here, and core fixes here should port back.

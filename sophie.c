@@ -251,9 +251,18 @@ void ds_voice_render(struct ds_voice *v, const struct ds_params *p,
                            : p->phase_inc;
         v->carrier += (uint32_t)inc << 17;
         v->mod1 += (uint32_t)((inc * ratio) >> 11) << 16;
-        fb = ds_mul(v->feedback_z, feedback);
-        fb = (fb * (8192 + ((metal * 40960) >> 15))) >> 12;
-        mod = ds_sin(v->mod1 + ds_phase_from_radians_q15(fb));
+        /* Diet: with no feedback the loop contributes exactly 0
+         * (ds_mul(z, 0) == 0), so skip the modulator read, the radian
+         * conversion and the smoother update. Bit-exact while FBK stays
+         * 0; raising FBK mid-note reconverges from the frozen smoother
+         * within samples (inaudible). */
+        if (feedback) {
+            fb = ds_mul(v->feedback_z, feedback);
+            fb = (fb * (8192 + ((metal * 40960) >> 15))) >> 12;
+            mod = ds_sin(v->mod1 + ds_phase_from_radians_q15(fb));
+        } else {
+            mod = ds_sin(v->mod1);
+        }
         /* The pitch contour moves slowly relative to four synth samples.
          * Hold FM depth/ceiling across the same eight output frames as the
          * other controls; this avoids repeated heavy multiply/divide work. */
@@ -300,12 +309,22 @@ void ds_voice_render(struct ds_voice *v, const struct ds_params *p,
         }
         case 3: /* SHARD: quantized tone and a short, scratchy noise bloom. */
             raw = ds_sin((v->carrier & 0xf8000000u) + phase_mod);
-            v->noise_z += ds_mul(ds_noise(v) - v->noise_z, 655 + ds_mul(color, 11469));
-            raw = ds_mul(raw, 27852 - (metal >> 2))
-                + ds_mul(v->noise_z, ds_mul(ds_mul(metal, v->amp), 13762));
+            /* Diet: at METAL 0 the bloom term is exactly 0, so skip the
+             * LPF and the LFSR advance. Bit-exact while METAL stays 0;
+             * raising it restarts from frozen state (white restarts
+             * white — statistically identical, inaudible). */
+            if (metal) {
+                v->noise_z += ds_mul(ds_noise(v) - v->noise_z, 655 + ds_mul(color, 11469));
+                raw = ds_mul(raw, 27852 - (metal >> 2))
+                    + ds_mul(v->noise_z, ds_mul(ds_mul(metal, v->amp), 13762));
+            } else {
+                raw = ds_mul(raw, 27852);
+            }
             break;
         }
-        v->feedback_z += (ds_soft_clip(raw + ((raw * 13) >> 5)) - v->feedback_z) / 8;
+        /* Frozen while feedback is 0 (see above); resumes on raise. */
+        if (feedback)
+            v->feedback_z += (ds_soft_clip(raw + ((raw * 13) >> 5)) - v->feedback_z) / 8;
         if (v->attack < Q15) raw = ds_mul(raw, v->attack);
 
         y = ds_mul(raw, v->velocity_s);
@@ -352,10 +371,13 @@ void ds_fold_block(int32_t *out, uint32_t n, uint8_t amount)
     level = ((int32_t)level_q8[index] * (8 - (int32_t)fraction)
            + (int32_t)level_q8[index + 1] * (int32_t)fraction + 4) >> 3;
     for (i = 0; i < n; ++i) {
-        int32_t x = out[i] / 65536;
-        int32_t driven = (x * drive) / 256;
+        /* Shifts, not divides: |x| <= 32768 and drive <= 2288, so
+         * |x * drive| <= 75M < 2^31; |folded * level| <= 8.4M. Exact on
+         * multiples, +-1 LSB elsewhere (inherent, inaudible). */
+        int32_t x = out[i] >> 16;
+        int32_t driven = (x * drive) >> 8;
         uint32_t phase = ((uint32_t)(driven + 32768)) & 0x1ffffu;
         int32_t folded = (int32_t)(phase < 65536u ? phase : 131071u - phase) - 32768;
-        out[i] = ((folded * level) / 256) * 65536;
+        out[i] = ((folded * level) >> 8) * 65536;
     }
 }

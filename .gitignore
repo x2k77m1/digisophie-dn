@@ -5,18 +5,47 @@ __pycache__/
 
 # Generated mods, firmware, maps, probes and test executables.
 out/
-diagnostics/digihealth/out/
-*.elemod
+digisophie-dn/out/
+*.elf
+*.o
 *.syx
 *.bin
-release/*.work/
+*.map.json
+*.syx.json
+*.snap
+*.img
+*.raw
+sections/
+snapshots/
+check*/
+# Shipped mods: only release/ artifacts are tracked.
+*.elemod
 !release/*.elemod
+release/*.work/
 
 # Stock firmware is supplied by each user, never by this repository.
 firmware/
+original-os-sysex/
+
+# Elekloader + emulator checkouts (reference projects, keep out of this repo).
+# NOTE: tools/elekloader is a symlink to a reference checkout here, so this
+# pattern must NOT end in a slash (foo/ never matches a symlink).
+tools/elekloader
+tools/elekloader/out/
+tools/elekloader/mods/*/out/
+tools/digiemu/
 
 # Keep only the designated Markdown documents.
 *.md
 !README.md
 !THIRD_PARTY.md
-!DSP.md
+!digisophie-dn/README.md
+!docs/digitone-mod-template.md
+
+# Never commit vendor manuals (Elektron copyright, user-provided reference).
+docs/*.pdf
+# Local logs/scratch.
+/tmp/
+*.log
+# OS
+.DS_Store

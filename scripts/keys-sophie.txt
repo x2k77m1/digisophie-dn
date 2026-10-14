@@ -1,0 +1,35 @@
+# SOPHIE feature script for digiemu fwcheck (--script).
+# Identical presses on stock and custom: everything before the T1 hold must
+# match (we changed nothing there); from the Mod Menu on the custom build
+# picks SOPH for track 1 and plays it.
+wait 1000
+snap start
+tap SYN1
+snap syn1-fm
+# Hold T1 on its own: core's Mod Menu (custom only; stock ignores the hold).
+press T1
+wait 700
+release T1
+wait 500
+snap modmenu
+tap YES
+wait 500
+snap machines
+tap RIGHT
+tap YES
+wait 500
+snap picked
+tap SYN1
+snap syn1-soph
+turn A +24
+wait 200
+snap syn1-turn
+tap SYN2
+snap syn2-soph
+tap PLAY
+wait 3000
+snap playing
+tap STOP
+tap STOP
+wait 500
+snap stopped
