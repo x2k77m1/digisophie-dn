@@ -116,7 +116,6 @@ live in `out/` only.
 * `scripts/build-digisophie-dn.sh` — reproducible build/lint/patch for both OSes.
 * `scripts/keys-sophie*.txt` — emulator feature scripts.
 * `tools/sophie_*_host_test.py` — host harnesses (no firmware).
-* `docs/digitone-mod-template.md` — the Digitone machine-mod spec this port follows.
 
 ## Source and licenses
 

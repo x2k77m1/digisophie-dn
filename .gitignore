@@ -40,7 +40,6 @@ tools/digiemu/
 !README.md
 !THIRD_PARTY.md
 !digisophie-dn/README.md
-!docs/digitone-mod-template.md
 
 # Never commit vendor manuals (Elektron copyright, user-provided reference).
 docs/*.pdf

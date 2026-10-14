@@ -6,7 +6,7 @@ Digitone's own multimode filter, mixer, effects and AMP envelope, like FM.
 
 - DSP core (reusable, fixed-point): `../sophie.c`, `../sophie.h`,
   `../sophie_sin_table.inc` (MIT, ported from the Digitakt `digisophie` mod).
-- Digitone spec: `../docs/digitone-mod-template.md`. Host tests:
+- Host tests:
   `../tools/sophie_dn_host_test.py` (core via DN mapping),
   `../tools/sophie_engine_host_test.py` (render through stubbed companion).
 - This dir holds the Digitone adapter: `mod.json` (device digitone-mk1,
